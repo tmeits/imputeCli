@@ -1,19 +1,32 @@
 #IVA 5.5.17
 layout <- list(
-  autosize = F, 
+  autosize = FALSE, 
   dragmode = "zoom", 
-  hovermode = "x", #"closest", 
+  height = 480, 
+  hovermode = "x", 
   legend = list(
-    x = 0.393915787863, 
-    y = -0.310102134663, 
-    orientation = "h"),
-  showlegend = T, 
-  margin = list( r = 100, t = 100, b = 80, l = 80 ),
-  title = "PrecTemp", 
+    x = -0.0127018591959, 
+    y = 1.2059562595, 
+    orientation = "h", 
+    traceorder = "normal", 
+    xanchor = "center", 
+    yanchor = "top"
+  ), 
+  margin = list(
+    r = 100, 
+    t = 80, 
+    b = 80, 
+    l = 100
+  ), 
+  paper_bgcolor = "rgb(23, 190, 207)", 
+  plot_bgcolor = "rgb(227, 119, 194)", 
+  showlegend = TRUE, 
+  title = "Click to enter Plot title", 
+  width = 640, 
   xaxis = list(
     autorange = TRUE, 
     domain = c(0, 1), 
-    range = c(1, 366), 
+    range = c(-23.1261261261, 389.126126126), 
     showspikes = TRUE, 
     title = "days", 
     type = "linear"
@@ -29,10 +42,10 @@ layout <- list(
     anchor = "x", 
     autorange = TRUE, 
     overlaying = "y", 
-    range = c(-2, 300), 
+    range = c(-9.92780748663, 150.927807487), 
     showspikes = TRUE, 
-    title = "prec", 
     side = "right", 
+    title = "popopop\", 
     type = "linear"
   )
 )
