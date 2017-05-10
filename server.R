@@ -64,6 +64,15 @@ shinyServer(
       shinyjs::enable(selector = "[type=radio][value='aisori.meteo.ru/ClimateR']")
     }
   })  
+  
+  observe({
+    #if (input$showlegendOne)
+    if (input$showlegendOne)
+      layout$showlegend <- TRUE
+    else
+      layout$showlegend <- FALSE  
+    plotlyPrecTemp(trace1, trace2, layout, input$showrangesliderOne)
+  })
     
   observeEvent(input$button, {
     toggle("countTest")
@@ -304,10 +313,17 @@ shinyServer(
   ##############################
   
   output$plotlyPrecTemp <- renderPlotly({ 
-    if (input$showlegendOne)
+    if (input$showlegendOne){
       layout$showlegend <- TRUE
+      shinyjs::reset('showrangesliderOne')  
+    }
     else
       layout$showlegend <- FALSE
+    
+    if (input$hovermodeOne)
+      layout$hovermode <- 'x'
+    else
+      layout$hovermode <- 'closest'
     
     time <- currentFileInput()[,1]
     precVect <- currentFileInput()[,2]
@@ -323,7 +339,7 @@ shinyServer(
     
     layout$yaxis2$range <- yPreclimMinMAx
     
-    plotlyPrecTemp(trace1, trace2, layout)
+    plotlyPrecTemp(trace1, trace2, layout, input$showrangesliderOne)
   })
   
   output$contentsPlotPrec <- renderPlot({
@@ -382,6 +398,16 @@ shinyServer(
   ) # downloadDataPlotly <- downloadHandler(
   
   ##############################
+  ### frameContactUS
+  ##############################
+  
+  output$frameContactUS <- renderUI({ # 
+    view_frameContactUS <- tags$iframe(src="https://trace2017.typeform.com/to/ZurLTf", height=410, width=600)
+    print(view_frameContactUS)
+    view_frameContactUS
+  })
+  
+  ##############################
   ### frameShinyJS
   ##############################
   
@@ -403,7 +429,8 @@ shinyServer(
     grnn.impute <- na.grnn.cli(currentFileInput(), 106, input$sigmaPrecPlotly, FALSE, FALSE)
     plotlyVect(currentFileInput()$prec, grnn.impute$prec,
                paste0(getNameFileCli(), " Prec - GRNN-R"), 
-               "Precipitation in millimeters", "Days", input$mode.edom)
+               "Precipitation in millimeters", "Days", 
+               mode_line = input$mode.edom, mode_slider = input$plotlyShowrangesI)
   }) # output$PlotlyPrec
   
   output$PlotlyTemp <- renderPlotly({
@@ -411,7 +438,8 @@ shinyServer(
     grnn.impute <- na.grnn.cli(currentFileInput(), 106, input$sigmaTempPlotly, FALSE, FALSE)
     plotlyVect(currentFileInput()$temp, grnn.impute$temp,
                paste0(getNameFileCli(), " Temp - GRNN-R"), 
-               "Temperature in degrees Celsius", "Days", input$mode.edom)
+               "Temperature in degrees Celsius", "Days", 
+               mode_line = input$mode.edom, mode_slider = input$plotlyShowrangesI)
   }) # output$PlotlyTemp
   
   })

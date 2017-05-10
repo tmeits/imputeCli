@@ -74,8 +74,8 @@ if (FALSE) {
 
 if (FALSE) {
   #https://github.com/cran/grnnR/blob/master/R/grnn.r
-  n <- 365*7; set.seed(123456); sigma <- 0.1
-  x <- as.matrix(runif(n, -2, 2))
+  n <- 365; set.seed(123456); sigma <- 0.1
+  x <- as.matrix(runif(n, -200, 200))
   y <- as.matrix(x^3 + rnorm(n, 0, .1))
   plot(x,y, col="blue")
   x.sample <- x

@@ -43,18 +43,30 @@ plotlyNAMarkersLines <- function(){
   p
 }
 
-plotlyVect <- function(vec.na, vec.impute, vec.title, vec.ysxis, vec.xaxis, mode.line = FALSE) {
+plotlyVect <- function(vec.na, vec.impute, vec.title, vec.ysxis, vec.xaxis,
+                       mode_line = FALSE, mode_slider = TRUE) {
   days<- 1:length(vec.impute)
   data <- data.frame(days, vec.na, vec.impute)
-  if (mode.line) mode.edom <- 'lines+markers'
+  if (mode_line) mode.edom <- 'lines+markers'
   else mode.edom <- 'markers'
-  p <- plot_ly(data, x = ~days, y= ~vec.impute, name = 'vec.impute',type = 'scatter', mode = mode.edom) %>%
-    add_trace(y = ~vec.na, name = 'vec.na', mode = mode.edom) %>%
-    layout(title = vec.title,
-           xaxis = list(title = vec.xaxis), 
-           yaxis = list(title = vec.ysxis),
-           legend = list(x = 0, y = 1)) %>%
-    rangeslider()  
+  if (mode_slider) {
+    p <- plot_ly(data, x = ~days, y= ~vec.impute, name = 'vec.impute', type = 'scatter', mode = mode.edom) %>%
+      add_trace(y = ~vec.na, name = 'vec.na', mode = mode.edom) %>%
+      layout(title = vec.title,
+             xaxis = list(title = vec.xaxis), 
+             yaxis = list(title = vec.ysxis),
+             legend = list(x = 0, y = 1)) %>%
+      rangeslider() 
+  }
+  else {
+    p <- plot_ly(data, x = ~days, y= ~vec.impute, name = 'vec.impute', type = 'scatter', mode = mode.edom) %>%
+      add_trace(y = ~vec.na, name = 'vec.na', mode = mode.edom) %>%
+      layout(title = vec.title,
+             xaxis = list(title = vec.xaxis), 
+             yaxis = list(title = vec.ysxis),
+             legend = list(x = 0, y = 1))
+  }
+ 
   p 
 }
 
@@ -96,15 +108,18 @@ trace2 <- list(
 data <- list(trace1, trace2)
 
 layout <- list(
-  #autosize = TRUE, 
+  autosize = T, 
   dragmode = "zoom", 
   hovermode = "x", #"closest", 
+  height = '100%', 
   legend = list(
     x = 0.393915787863, 
-    y = -0.210102134663, 
+    y = -0.310102134663, 
     orientation = "h"),
   showlegend = T, 
-  title = "Prec", 
+  margin = list( r = 100, t = 100, b = 80, l = 80 ),
+  title = "PrecTemp", 
+  width = '100%', 
   xaxis = list(
     autorange = TRUE, 
     domain = c(0, 1), 
@@ -132,21 +147,26 @@ layout <- list(
   )
 )
 
-plotlyPrecTemp <- function(trace1, trace2, layout) {
+plotlyPrecTemp <- function(trace1, trace2, layout, slider) {
   p <- plot_ly()
   p <- add_trace(p, x=trace1$x, y=trace1$y, line=trace1$line, marker=trace1$marker, mode=trace1$mode, name=trace1$name, type=trace1$type, uid=trace1$uid, xsrc=trace1$xsrc, ysrc=trace1$ysrc)
   p <- add_trace(p, x=trace2$x, y=trace2$y, hoverinfo=trace2$hoverinfo, line=trace2$line, marker=trace2$marker, mode=trace2$mode, name=trace2$name, showlegend=trace2$showlegend, type=trace2$type, uid=trace2$uid, xaxis=trace2$xaxis, xsrc=trace2$xsrc, yaxis=trace2$yaxis, ysrc=trace2$ysrc)
  p <- layout(p, 
               autosize=layout$autosize, 
-              dragmode=layout$dragmode, 
+              dragmode=layout$dragmode,
+              height=layout$height,
               hovermode=layout$hovermode, 
-#              legend=layout$legend,
+              legend=layout$legend,
+              margin=layout$margin,
               showlegend=layout$showlegend, 
               title=layout$title, 
               xaxis=layout$xaxis, 
               yaxis=layout$yaxis, 
+              width=layout$width,
               yaxis2=layout$yaxis2)
   #p <- layout(p, autosize=layout$autosize, dragmode=layout$dragmode, hovermode=layout$hovermode, legend=layout$legend, showlegend=layout$showlegend, title=layout$title, xaxis=layout$xaxis, yaxis=layout$yaxis, yaxis2=layout$yaxis2)
+  if (slider)
+     p <- rangeslider(p)
   p
 }
 
@@ -165,3 +185,5 @@ if (FALSE){
 if (FALSE) {
   
 }
+
+  

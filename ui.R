@@ -27,7 +27,8 @@ require(lubridate)
 shinyUI(
   tagList(
     navbarPage(
-      "GRNNCLI",
+      "",
+      #"GRNNCLI",
       tabPanel("HOME",
       # theme = "cerulean",  # <--- To use a theme, uncomment this "shinythemes",
       fluidPage( theme = shinytheme("cerulean"), #flatly #darkly #spacelab #united # paper
@@ -47,9 +48,11 @@ shinyUI(
         tags$hr(),
         radioButtons ( "inRadioButtonsCliFormats" , "Other climatic data representation formats" ,
                        c ( "VS-R Shiny format .cli" , 
-                           "VS-Fortran 5 Classic format .CLI" ,
-                           "VS-Fortran 5 China format .CLI",
-                           "aisori.meteo.ru/ClimateR") ),
+                           "VS-Fortran 5 Classic format .CLI" 
+                           #,
+                           #"VS-Fortran 5 China format .CLI",
+                           #"aisori.meteo.ru/ClimateR"
+                           )),
         tags$hr(),
         # https://github.com/daattali/shinyjs/blob/master/inst/examples/basic/app.R
         a(id = "toggleAdvanced", "Show/hide advanced info"),
@@ -96,7 +99,7 @@ shinyUI(
       tabsetPanel( # http://rstudio.github.io/shiny/tutorial/#tabsets
         tabPanel("Overview", 
                  #plotOutput('contentsPlot'),
-                 plotlyOutput('plotlyPrecTemp'),
+                 plotlyOutput('plotlyPrecTemp'), #, height = "720px", width = "920"),
                  #plotOutput('plotPrecTemp'),
                  tags$br(),
                  div(id = "centralPlot",
@@ -157,7 +160,8 @@ tabPanel("imputeCli",
              sliderInput("sigmaTempPlotly", label = "Changing the value of Sigma - Temp", 
                          min = 0.01, 
                          max = 0.9, value = 0.16),
-             checkboxInput('mode.edom', tags$b('Plot_Ly lines+markers'), TRUE),
+             checkboxInput('mode.edom', tags$b('PlotLy lines+markers'), TRUE),
+             checkboxInput('plotlyShowrangesI', tags$b('PlotLy showranges'), FALSE),
              tags$hr(),
              verbatimTextOutput("yearImpute"),
              tags$hr(),
@@ -186,10 +190,10 @@ tabPanel("imputeCli",
 tabPanel("About"),
 tabPanel("ContactUS", #http://stackoverflow.com/questions/33020558/embed-iframe-inside-shiny-app
          mainPanel(fluidRow(
-           tags$h1("shinyJS Demo"),
-           tags$p("You can test out some shinyjs functions below. Choose some R code from the dropdown list, and click Run."),
+           tags$h1("ContactUS"),
+           tags$p("General questions, comments, requests, please, send to", a("vilin@sfu-kras.ru") ,"(Victor)."),
            tags$hr(),
-           htmlOutput("frameShinyJS"),
+           htmlOutput("frameContactUS"),
            tags$hr()
          )
          ) # DEMO ShinyJS
